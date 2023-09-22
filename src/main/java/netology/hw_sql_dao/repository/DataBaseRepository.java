@@ -1,21 +1,16 @@
 package netology.hw_sql_dao.repository;
 
+import netology.hw_sql_dao.reader.ReaderSQLScript;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Repository
 public class DataBaseRepository {
@@ -26,7 +21,7 @@ public class DataBaseRepository {
 
     public List<String> getProductName(String name) throws SQLException {
         Connection connection = dataSource.getConnection();
-        String query = read(pathScript);
+        String query = ReaderSQLScript.read(pathScript);
         List<String> products = new ArrayList<>();
 
         try (PreparedStatement ps = connection.prepareStatement(query)) {
@@ -40,14 +35,5 @@ public class DataBaseRepository {
 
         }
         return products;
-    }
-
-    private static String read(String scriptFileName) {
-        try (InputStream is = new ClassPathResource(scriptFileName).getInputStream();
-             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(is))) {
-            return bufferedReader.lines().collect(Collectors.joining("\n"));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
 }
