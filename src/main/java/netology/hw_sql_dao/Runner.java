@@ -1,19 +1,18 @@
 package netology.hw_sql_dao;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.transaction.Transactional;
 import netology.hw_sql_dao.reader.ReaderSQLScript;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.jdbc.core.JdbcTemplate;
-
-import java.sql.SQLException;
 
 @SpringBootApplication
 public class Runner implements CommandLineRunner {
 
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
+    @PersistenceContext
+    EntityManager entityManager;
 
     public static void main(String[] args) {
         SpringApplication application = new SpringApplication(Runner.class);
@@ -21,10 +20,11 @@ public class Runner implements CommandLineRunner {
     }
 
     @Override
-    public void run(String... args) throws SQLException {
-        jdbcTemplate.execute(ReaderSQLScript.read("CreateTableCustomers.sql"));
-        jdbcTemplate.execute(ReaderSQLScript.read("CreateTableOrders.sql"));
-        jdbcTemplate.execute(ReaderSQLScript.read("InsertTableCustomers.sql"));
-        jdbcTemplate.execute(ReaderSQLScript.read("InsertTableOrders.sql"));
+    @Transactional
+    public void run(String... args) {
+        entityManager.createNativeQuery(ReaderSQLScript.read("CreateTableCustomers.sql")).executeUpdate();
+        entityManager.createNativeQuery(ReaderSQLScript.read("CreateTableOrders.sql")).executeUpdate();
+        entityManager.createNativeQuery(ReaderSQLScript.read("InsertTableCustomers.sql")).executeUpdate();
+        entityManager.createNativeQuery(ReaderSQLScript.read("InsertTableOrders.sql")).executeUpdate();
     }
 }

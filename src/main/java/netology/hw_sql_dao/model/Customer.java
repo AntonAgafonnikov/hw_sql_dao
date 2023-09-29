@@ -1,23 +1,33 @@
 package netology.hw_sql_dao.model;
 
+import jakarta.persistence.*;
+import lombok.Data;
+
+@Entity
+@Data
+@Table(name = "CUSTOMERS")
 public class Customer {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @Column
     private String name;
+
+    @Column
     private String surname;
+
+    @Column
     private int age;
+
+    @Column
     private String phone_number;
 
+    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
+    @JoinColumn(name = "customers_id", nullable = false)
+    private Order order;
+
     public Customer() {
-    }
-
-    ;
-
-    public Customer(int id, String name, String surname, int age, String phone_number) {
-        this.id = id;
-        this.name = name;
-        this.surname = surname;
-        this.age = age;
-        this.phone_number = phone_number;
     }
 
     public int getId() {
@@ -58,6 +68,14 @@ public class Customer {
 
     public void setPhone_number(String phone_number) {
         this.phone_number = phone_number;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setAge(Order order) {
+        this.order = order;
     }
 
     @Override

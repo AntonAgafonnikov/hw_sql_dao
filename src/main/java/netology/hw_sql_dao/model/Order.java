@@ -1,24 +1,36 @@
 package netology.hw_sql_dao.model;
 
-import java.sql.Date;
+import jakarta.persistence.*;
+import lombok.Data;
 
+import java.sql.Date;
+import java.util.List;
+
+@Entity
+@Data
+@Table(name = "ORDERS")
 public class Order {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @Column
     private Date date;
+
+    @Column
     private int customer_id;
+
+    @Column
     private String product_name;
+
+    @Column
     private int amount;
-    //foreign key (customer_id) references CUSTOMERS (id)
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "order")
+    private List<Customer> customers;
 
     public Order() {
-    }
-
-    public Order(int id, Date date, int customer_id, String product_name, int amount) {
-        this.id = id;
-        this.date = date;
-        this.customer_id = customer_id;
-        this.product_name = product_name;
-        this.amount = amount;
     }
 
     public int getId() {
@@ -59,6 +71,14 @@ public class Order {
 
     public void setAmount(int amount) {
         this.amount = amount;
+    }
+
+    public List<Customer> getCustomers() {
+        return customers;
+    }
+
+    public void setCustomers(List<Customer> customers) {
+        this.customers = customers;
     }
 
     @Override

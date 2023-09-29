@@ -3,7 +3,6 @@ package netology.hw_sql_dao.service;
 import netology.hw_sql_dao.repository.DataBaseRepository;
 import org.springframework.stereotype.Service;
 
-import java.sql.SQLException;
 import java.util.List;
 
 @Service
@@ -14,7 +13,7 @@ public class DataBaseService {
         this.dataBaseRepository = dataBaseRepository;
     }
 
-    public List<String> getProductName(String name) throws SQLException {
+    public List<String> getProductName(String name) {
         return dataBaseRepository.getProductName(name);
     }
 }

@@ -1,4 +1,4 @@
-insert into netology.CUSTOMERS (name, surname, age, phone_number)
+insert into CUSTOMERS (name, surname, age, phone_number)
 values
     ('Bob', 'Lame', 34, '+19877898888'),
     ('ALexeY', 'Kronov', 22, '+71345798854'),

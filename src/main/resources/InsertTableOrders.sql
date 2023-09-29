@@ -1,4 +1,4 @@
-insert into netology.ORDERS (date, customer_id, product_name, amount)
+insert into ORDERS (date, customer_id, product_name, amount)
 values
     ('2021-03-23', 1, 'TV', 10000),
     ('2022-11-13', 2, 'PS5', 59999),
